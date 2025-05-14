@@ -49,14 +49,14 @@ vector<double> readCSV(const string& filename)
         float length;
 
 
-        while (ss >> length)
+        while (ss >> length) 
         {
             lengths.push_back(length);
             if (ss.peek() == ',') ss.ignore(); // Ignorera kommatecken
         }
 
         // En kontroll för att se om det finns ogiltiga data i filen
-        if (ss.fail() && !ss.eof())
+        if (ss.fail() && !ss.eof()) 
         {
             cout << "FEL: Ogiltig data hittad i filen: " << filename << "|" << "\n";
 
@@ -80,20 +80,24 @@ vector<double> readCSV(const string& filename)
     return lengths;
 }
 
-// Heapify funktion för att skapa max heap
-void heapify(vector<double>& arr, int n, int i)
+// Heapify funktion för att skapa max heap 
+void heapify(vector<double>& arr, int n, int i) // arr är en referens till en vektor av double
 {
-    int largest = i;
-    int left = 2 * i + 1;
-    int right = 2 * i + 2;
+    int largest = i; // Största elementet
+    int left = 2 * i + 1; // Vänster barn
+    int right = 2 * i + 2;  // Höger barn
 
-    if (left < n && arr[left] > arr[largest]) largest = left;
-    if (right < n && arr[right] > arr[largest]) largest = right;
+    if (left < n && arr[left] > arr[largest]) largest = left; // Om vänster barn är större än största elementet
+    if (right < n && arr[right] > arr[largest]) largest = right; // Om höger barn är större än största elementet
 
-    if (largest != i)
+    if (largest != i)   // Om största elementet inte är roten
     {
-        swap(arr[i], arr[largest]);
-        heapify(arr, n, largest);
+        swap(arr[i], arr[largest]); // Byt plats på roten och största elementet
+        heapify(arr, n, largest); // Rekursivt anropa heapify för att säkerställa max heap
+    }
+    {
+        swap(arr[i], arr[largest]); // Byt plats på roten och största elementet
+        heapify(arr, n, largest); // Rekursivt anropa heapify för att säkerställa max heap
     }
 }
 
@@ -165,7 +169,8 @@ void printResults(const vector<Box>& boxes, const vector<double>& discarded)
 {
     cout << "==================== Slutgiltigt resultat ====================\n";
     cout << "                        Packade Boxar:                        \n";
-    for (const auto& box : boxes)
+    for (const auto& box : boxes) // const auto& används för att undvika kopiering av objekt
+        // const är en typ av modifierare som används för att ange att en variabel är konstant
     {
         if (!box.contents.empty())
         {
@@ -188,7 +193,7 @@ void printResults(const vector<Box>& boxes, const vector<double>& discarded)
         for (size_t i = 0; i < discarded.size(); ++i)
         {
             cout << "";
-            cout << fixed << setprecision(1) << discarded[i];
+            cout << fixed << setprecision(1) << discarded[i]; //setprecision är en funktion som används för att ställa in antalet decimaler
             cout << "   ";
             if (i != discarded.size() - 1) cout << ", ";
         }
@@ -209,9 +214,10 @@ int main()
         {"Medel", 30.0, 30, {}},
         {"Maxi", 45.0, 10, {}}
     };
-    // Lådor med olika maxlängd och maxantal kolasnoren
-    //vectorn lengths 
-    vector<double> lengths = readCSV("kolasnoren.csv");
+    // Lådor med olika maxlängd och maxantal kolasnoren 
+    //vectorn lengths är en vektor som innehåller längderna på kolasnoren
+    vector<double> lengths = readCSV("kolasnoren.csv"); // läser in längderna från CSV-filen
+    
 
 
     heapSort(lengths);
@@ -227,7 +233,7 @@ int main()
     cout << "|=================================================|\n";
     cout << "|Kod skriven av: [Mathias D]|\n";
     cout << "|=================================================|\n";
-    cout << "Tryck på ENTER tangenten för att avsluta programmet...";
+    cout << "Tryck ENTER ...";
     cin.get(); // Väntar på användarens input innan programmet avslutas
     
     return 0;
